@@ -43,7 +43,7 @@ func (c *Cursor) First() (key []byte, value []byte) {
 
 	k, v, flags := c.keyValue()
 	if (flags & uint32(bucketLeafFlag)) != 0 {
-		return k, nil
+		return k, v
 	}
 	return k, v
 
@@ -62,7 +62,7 @@ func (c *Cursor) Last() (key []byte, value []byte) {
 	c.last()
 	k, v, flags := c.keyValue()
 	if (flags & uint32(bucketLeafFlag)) != 0 {
-		return k, nil
+		return k, v
 	}
 	return k, v
 }
@@ -74,7 +74,7 @@ func (c *Cursor) Next() (key []byte, value []byte) {
 	_assert(c.bucket.tx.db != nil, "tx closed")
 	k, v, flags := c.next()
 	if (flags & uint32(bucketLeafFlag)) != 0 {
-		return k, nil
+		return k, v
 	}
 	return k, v
 }
@@ -105,7 +105,7 @@ func (c *Cursor) Prev() (key []byte, value []byte) {
 	c.last()
 	k, v, flags := c.keyValue()
 	if (flags & uint32(bucketLeafFlag)) != 0 {
-		return k, nil
+		return k, v
 	}
 	return k, v
 }
@@ -125,7 +125,7 @@ func (c *Cursor) Seek(seek []byte) (key []byte, value []byte) {
 	if k == nil {
 		return nil, nil
 	} else if (flags & uint32(bucketLeafFlag)) != 0 {
-		return k, nil
+		return k, v
 	}
 	return k, v
 }

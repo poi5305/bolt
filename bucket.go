@@ -125,6 +125,10 @@ func (b *Bucket) Bucket(name []byte) *Bucket {
 	return child
 }
 
+func (b *Bucket) OpenBucket(value []byte) *Bucket {
+	return b.openBucket(value)
+}
+
 // Helper method that re-interprets a sub-bucket value
 // from a parent into a Bucket
 func (b *Bucket) openBucket(value []byte) *Bucket {
