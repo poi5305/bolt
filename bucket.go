@@ -125,8 +125,20 @@ func (b *Bucket) Bucket(name []byte) *Bucket {
 	return child
 }
 
-func (b *Bucket) OpenBucket(value []byte) *Bucket {
-	return b.openBucket(value)
+func (b *Bucket) OpenBucket(k, v []byte) *Bucket {
+	if b.buckets != nil {
+		if child := b.buckets[string(k)]; child != nil {
+			return child
+		}
+	}
+
+	// Otherwise create a bucket and cache it.
+	var child = b.openBucket(v)
+	if b.buckets != nil {
+		b.buckets[string(k)] = child
+	}
+
+	return child
 }
 
 // Helper method that re-interprets a sub-bucket value
